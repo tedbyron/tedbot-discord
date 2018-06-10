@@ -2,6 +2,11 @@
   "name": "tedbot",
   "version": "0.0.0",
   "description": "Ted's discord bot",
+  "homepage": "https://github.com/tedbyron/tedbot",
+  "author": "Theodore Byron",
+  "email": "ted@tedbyron.com",
+  "url": "https://tedbyron.com",
+  "license": "MIT",
   "main": "index.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1"
@@ -10,12 +15,13 @@
     "type": "git",
     "url": "git+https://github.com/tedbyron/tedbot.git"
   },
-  "author": "Theodore Byron",
-  "email": "ted@tedbyron.com",
-  "url": "https://tedbyron.com",
-  "license": "MIT",
   "bugs": {
     "url": "https://github.com/tedbyron/tedbot/issues"
   },
-  "homepage": "https://github.com/tedbyron/tedbot"
+  "dependencies": {
+    "bufferutil": "^3.0.3",
+    "discord.js": "^11.3.2",
+    "eslint": "^4.19.1",
+    "repository": "github:discordapp/erlpack"
+  }
 }
