@@ -1,0 +1,2 @@
+# tedbot
+👾 Discord bot
