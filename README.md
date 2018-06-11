@@ -7,17 +7,20 @@
 -   [Discord API](https://discordapp.com/developers/docs/intro)
 -   [Node.js](https://nodejs.org/)
     -   [discord.js](https://www.npmjs.com/package/discord.js)
+    -   [bufferutil](https://www.npmjs.com/package/bufferutil)
     -   [erlpack](https://github.com/discordapp/erlpack)
-    -   [uws](https://www.npmjs.com/package/uws)
 
 ## Instructions
 
--   Add `config.json` in the project root, then add bot command prefix and bot token in the file
+-   Add `config.json` in the project root, then add bot command prefix, bot token, and allowed servers in the file
 
     ```json
     {
       "prefix": "<COMMAND_PREFIX>",
-      "token": "<BOT_TOKEN>"
+      "token": "<BOT_TOKEN>",
+      "servers": {
+          "<SERVER_NAME>": "<SERVER_ID>"
+      }
     }
     ```
 -   Install dependencies

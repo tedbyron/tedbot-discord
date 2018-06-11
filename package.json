@@ -21,7 +21,6 @@
   "dependencies": {
     "bufferutil": "^3.0.3",
     "discord.js": "^11.3.2",
-    "eslint": "^4.19.1",
     "repository": "github:discordapp/erlpack"
   }
 }
