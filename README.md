@@ -14,7 +14,7 @@
 
 -   Add `config.json` in the project root, then add bot command prefix, bot token, and allowed servers in the file
 
-    ```json
+    ```js
     {
       "prefix": "<COMMAND_PREFIX>",
       "token": "<BOT_TOKEN>",
