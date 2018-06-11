@@ -31,8 +31,8 @@
     ```sh
     node .
     ```
--   Go to the URL output by the application to add the bot to a server, or copy and paste the below URL, replacing <CLIENT_ID> with your bot's client id
+-   To add the bot to a server, go to the link output by node or copy and paste the below URL
     ```
     https://discordapp.com/oauth2/authorize?client_id=<CLIENT_ID>&permissions=134474881&scope=bot
     ```
--   Run the `${prefix}help` command to receive a dm from the bot with all possible commands
+-   Run the `${prefix}help` command in Discord to receive a dm from the bot with all possible commands
