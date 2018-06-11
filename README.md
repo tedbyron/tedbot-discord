@@ -23,8 +23,16 @@
       }
     }
     ```
--   Install dependencies
+-   Install dependencies and ignore optional discord.js peers
     ```sh
     npm install
+    ```
+-   Run the application
+    ```sh
+    node .
+    ```
+-   Go to the URL output by the application to add the bot to a server, or copy and paste the below URL, replacing <CLIENT_ID> with your bot's client id
+    ```
+    https://discordapp.com/oauth2/authorize?client_id=<CLIENT_ID>&permissions=134474881&scope=bot
     ```
 -   Run the `${prefix}help` command to receive a dm from the bot with all possible commands
