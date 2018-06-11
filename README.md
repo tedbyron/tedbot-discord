@@ -27,3 +27,4 @@
     ```sh
     npm install
     ```
+-   Run the `${prefix}help` command to receive a dm from the bot with all possible commands
