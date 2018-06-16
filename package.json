@@ -1,7 +1,7 @@
 {
   "name": "tedbot",
   "version": "0.0.0",
-  "description": "Ted's discord bot",
+  "description": "A Discord bot written in JavaScript",
   "homepage": "https://github.com/tedbyron/tedbot",
   "author": "Theodore Byron",
   "email": "ted@tedbyron.com",
@@ -9,7 +9,8 @@
   "license": "MIT",
   "main": "index.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "node ."
   },
   "repository": {
     "type": "git",

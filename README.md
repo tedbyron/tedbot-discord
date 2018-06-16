@@ -1,6 +1,6 @@
 # tedbot
 
->   My discord bot
+>   A JavaScript Discord bot
 
 ## Resources used
 
@@ -29,9 +29,9 @@
     ```
 -   Run the application
     ```sh
-    node .
+    npm start
     ```
--   To add the bot to a server, go to the link output by node or copy and paste the below URL
+-   To add the bot to a server, go to the link output by node
     ```
     https://discordapp.com/oauth2/authorize?client_id=<CLIENT_ID>&permissions=134474881&scope=bot
     ```
