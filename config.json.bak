@@ -1,0 +1,9 @@
+{
+  "PREFIX": "<command prefix>",
+  "TOKEN": "<bot token>",
+  "SERVERS": {
+    "<server name>": "<server id>"
+  },
+  "ACTIVITY_TYPE": "<{ActivityType}>",
+  "ACTIVITY": "<string>"
+}

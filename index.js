@@ -1,7 +1,23 @@
 // imports
+const FS = require('fs');
 const DISCORD = require('discord.js');
-const CLIENT = new DISCORD.Client();
 const { PREFIX, TOKEN, SERVERS, ACTIVITY_TYPE, ACTIVITY } = require('./config.json');
+
+const CLIENT = new DISCORD.Client();        // initialize client
+CLIENT.commands = new DISCORD.Collection(); // initialize commands
+const commandDirs = {};
+commandDirs.admin = FS.readdirSync('./commands/admin').filter(file => file.endsWith('.js'));
+commandDirs.info  = FS.readdirSync('./commands/info').filter(file => file.endsWith('.js'));
+commandDirs.misc  = FS.readdirSync('./commands/misc').filter(file => file.endsWith('.js'));
+commandDirs.music = FS.readdirSync('./commands/music').filter(file => file.endsWith('.js'));
+
+// set commands
+for (const group in commandDirs) {
+  for (const file of commandDirs[group]) {
+    const command = require(`./commands/${group}/${file}`);
+    CLIENT.commands.set(command.name, command);
+  }
+}
 
 // on ready event listener
 CLIENT.on('ready', async () => {
@@ -10,10 +26,10 @@ CLIENT.on('ready', async () => {
 
   // log client invite URI
   try {
-    let link = await CLIENT.generateInvite(134474881);
+    let link = await CLIENT.generateInvite(8);
     console.log(link);
-  } catch(err) {
-    console.warn(err.stack);
+  } catch(error) {
+    console.warn(error.stack);
   }
 });
 
@@ -30,28 +46,19 @@ CLIENT.on('message', async message => {
   }
 
   // slice the command prefix, split command + arguments on spaces
-  const ARGS = message.content.slice(PREFIX.length).trim().toLowerCase().split(/ +/);
-  const COMMAND = ARGS.shift();
+  const commandArgs = message.content.slice(PREFIX.length).trim().toLowerCase().split(/ +/);
+  const commandName = commandArgs.shift();
 
-  if (COMMAND === 'beep') {
-    message.channel.send(
-      new DISCORD.RichEmbed()
-        .setColor(0xFFFFFF)
-        .setTitle('boop')
-    );
-  }
+  // return if command is not in loaded commands
+  if (!CLIENT.commands.has(commandName)) return;
 
-  if (COMMAND === 'user') {
-    message.channel.send(
-      new DISCORD.RichEmbed()
-        .setColor(0xFFFFFF)
-        .setThumbnail(message.author.avatarURL)
-        .setTitle(message.author.tag)
-        .addField('id', message.author.id)
-        .addField('created', message.author.createdAt)
-        .addField('status', message.author.presence.status)
-        .addField('activity', message.author.presence.game || 'none')
-    );
+  const command = CLIENT.commands.get(commandName);
+
+  try {
+    command.execute(message, commandArgs);
+  } catch (error) {
+    console.error(error);
+    message.reply(`there was an error executing \`${PREFIX + commandName}\`. Check the log for more details.`);
   }
 });
 
