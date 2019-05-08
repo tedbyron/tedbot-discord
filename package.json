@@ -1,16 +1,16 @@
 {
   "name": "tedbot",
-  "version": "0.0.0",
-  "description": "A Discord bot written in JavaScript",
+  "version": "1.0.0",
+  "description": "a discord bot",
   "homepage": "https://github.com/tedbyron/tedbot",
   "author": "Theodore Byron",
   "email": "ted@tedbyron.com",
   "url": "https://tedbyron.com",
-  "license": "MIT",
+  "license": "UNLICENSED",
   "main": "index.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1",
-    "start": "node ."
+    "start": "node .",
+    "lint": "eslint ."
   },
   "repository": {
     "type": "git",
@@ -20,8 +20,7 @@
     "url": "https://github.com/tedbyron/tedbot/issues"
   },
   "dependencies": {
-    "bufferutil": "^3.0.3",
-    "discord.js": "^11.3.2",
-    "repository": "github:discordapp/erlpack"
+    "bufferutil": "^4.0.1",
+    "discord.js": "^11.4.2"
   }
 }
