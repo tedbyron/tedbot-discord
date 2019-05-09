@@ -2,14 +2,14 @@
 const FS = require('fs');
 const DISCORD = require('discord.js');
 const { PREFIX, TOKEN, SERVERS, ACTIVITY_TYPE, ACTIVITY } = require('./config.json');
+const COLORS = require('./helpers/colors');
 
 const CLIENT = new DISCORD.Client();        // initialize client
 CLIENT.commands = new DISCORD.Collection(); // initialize commands
-const commandDirs = {};
-commandDirs.admin = FS.readdirSync('./commands/admin').filter(file => file.endsWith('.js'));
-commandDirs.info  = FS.readdirSync('./commands/info').filter(file => file.endsWith('.js'));
-commandDirs.misc  = FS.readdirSync('./commands/misc').filter(file => file.endsWith('.js'));
-commandDirs.music = FS.readdirSync('./commands/music').filter(file => file.endsWith('.js'));
+const commandDirs = {
+  info: FS.readdirSync('./commands/info').filter(file => file.endsWith('.js')),
+  misc: FS.readdirSync('./commands/misc').filter(file => file.endsWith('.js')),
+};
 
 // set commands
 for (const group in commandDirs) {
@@ -54,11 +54,28 @@ CLIENT.on('message', async message => {
 
   const command = CLIENT.commands.get(commandName);
 
+  // return if arguments are required by the command
+  if (command.args && !commandArgs.length) {
+    return message.channel.send(
+      new DISCORD.RichEmbed()
+        .setColor(COLORS.COLOR_WARNING)
+        .setTitle('warning')
+        .setDescription(`\`${PREFIX + commandName}\` has required arguments`)
+        .addField('usage', `\`${command.usage}\``)
+    );
+  }
+
+  // execute the command
   try {
     command.execute(message, commandArgs);
   } catch (error) {
     console.error(error);
-    message.reply(`there was an error executing \`${PREFIX + commandName}\`. Check the log for more details.`);
+    message.channel.send(
+      new DISCORD.RichEmbed()
+        .setColor(COLORS.COLOR_ERROR)
+        .setTitle('error')
+        .setDescription(`execution of \`${PREFIX + commandName}\` failed`)
+    );
   }
 });
 
