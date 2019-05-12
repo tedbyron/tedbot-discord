@@ -1,5 +1,6 @@
 const { RichEmbed } = require('discord.js');
 const { PREFIX } = require('../../config');
+const COLORS = require('../../helpers/colors');
 
 module.exports = {
   name: 'beep',
@@ -9,8 +10,8 @@ module.exports = {
   execute(message) {
     message.channel.send(
       new RichEmbed()
-        .setColor(0xFFFFFF)
+        .setColor(COLORS.default)
         .setTitle('boop')
     );
   },
-}
+};

@@ -1,6 +1,7 @@
 const { RichEmbed } = require('discord.js');
 const { PREFIX } = require('../../config');
-const { COLOR_DEFAULT } = require('../../helpers/colors');
+const COLORS = require('../../helpers/colors');
+const RESPONSES = require('../../helpers/responses');
 
 const activityTypes = [
   'playing',
@@ -11,18 +12,31 @@ const activityTypes = [
 
 module.exports = {
   name: 'user',
-  usage: `${PREFIX}user [OPTION]... [@USER]`,
-  description: 'print user and role information for the specified USER, or (when USER is omitted) for the current user',
+  usage: `\`${PREFIX}user [@U]\`
+  U: discord user tag`,
+  description: 'print user and role information for the message author, or a specified user (U)',
   args: false,
   execute(message, args) {
-    // if no user was mentioned, default to the author
-    const user = message.mentions.users.first()
-      ? message.mentions.users.first()
-      : message.author;
+    if (args.length > 1) {
+      return RESPONSES.warning(message, `too many arguments for \`${PREFIX + this.name}\``, ['usage', this.usage]);
+    }
 
-    // embed for client response
+    let user = message.author;
+
+    // if a user is mentioned, get info from that user instead of the author
+    if (args.length) {
+      const id = args[0].match(/^<@!?(\d+)>$/);
+      if (id[1]) {
+        message.client.fetchUser(id[1]).then(cur => {
+          user = cur;
+          console.log(cur);
+        });
+      }
+    }
+
+    // initialize embed for client response
     const embed = new RichEmbed()
-      .setColor(COLOR_DEFAULT)
+      .setColor(COLORS.default)
       .setAuthor(user.tag + (user.bot ? ' (bot)' : ''), user.avatarURL)
       .addField('id', user.id, true)
       .addField('status', user.presence.status, true);
@@ -31,8 +45,8 @@ module.exports = {
     if (user.presence.game) {
       let presence = `${activityTypes[user.presence.game.type]} **${user.presence.game.name}**`;
 
-      if (user.presence.game.state) presence += `: ${user.presence.game.state}`;
-      if (user.presence.game.details) presence += ` - ${user.presence.game.details}`;
+      if (user.presence.game.state) presence += `: ${user.presence.game.details}`;
+      if (user.presence.game.details) presence += ` - ${user.presence.game.state}`;
 
       embed.addField('activity', presence);
 
@@ -54,4 +68,4 @@ module.exports = {
     // send response
     message.channel.send(embed);
   },
-}
+};
