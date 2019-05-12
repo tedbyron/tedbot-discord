@@ -26,12 +26,7 @@ module.exports = {
     // if a user is mentioned, get info from that user instead of the author
     if (args.length) {
       const id = args[0].match(/^<@!?(\d+)>$/);
-      if (id[1]) {
-        message.client.fetchUser(id[1]).then(cur => {
-          user = cur;
-          console.log(cur);
-        });
-      }
+      if (id[1]) user = message.client.users.get(id[1]);
     }
 
     // initialize embed for client response
