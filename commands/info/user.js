@@ -7,7 +7,7 @@ const activityTypes = [
   'playing',
   'streaming',
   'listening to',
-  'watching',
+  'watching'
 ];
 
 module.exports = {
@@ -32,7 +32,6 @@ module.exports = {
     // initialize embed for client response
     const embed = new RichEmbed()
       .setColor(COLORS.default)
-      .setAuthor(user.tag + (user.bot ? ' (bot)' : ''), user.avatarURL)
       .addField('id', user.id, true)
       .addField('status', user.presence.status, true);
 
@@ -57,10 +56,27 @@ module.exports = {
       year: 'numeric',
       hour: 'numeric',
       minute: '2-digit',
-      timeZoneName: 'short',
+      timeZoneName: 'short'
     }));
 
-    // send response
-    message.channel.send(embed);
-  },
+    message.guild.fetchMember(user)
+      .then(member => {
+        embed.setAuthor(member.displayName + (user.bot ? ` (${user.tag}) [bot]` : ` (${user.tag})`), user.avatarURL)
+          .addField('joined', member.joinedAt.toLocaleString('en-US', {
+            weekday: 'short',
+            month: 'short',
+            day: 'numeric',
+            year: 'numeric',
+            hour: 'numeric',
+            minute: '2-digit',
+            timeZoneName: 'short'
+          }));
+      })
+      .then(() => {
+        message.channel.send(embed);
+      })
+      .catch(error => {
+        console.error(error);
+      });
+  }
 };

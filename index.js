@@ -6,16 +6,16 @@ const RESPONSES = require('./helpers/responses');
 
 const CLIENT = new DISCORD.Client();        // initialize client
 CLIENT.commands = new DISCORD.Collection(); // initialize commands
-const commandDirs = {
+const COMMANDS = {
   info: FS.readdirSync('./commands/info').filter(file => file.endsWith('.js')),
   misc: FS.readdirSync('./commands/misc').filter(file => file.endsWith('.js')),
 };
 
 // set commands
-for (const group in commandDirs) {
-  for (const file of commandDirs[group]) {
-    const command = require(`./commands/${group}/${file}`);
-    CLIENT.commands.set(command.name, command);
+for (const DIRECTORY in COMMANDS) {
+  for (const FILE of COMMANDS[DIRECTORY]) {
+    const COMMAND = require(`./commands/${DIRECTORY}/${FILE}`);
+    CLIENT.commands.set(COMMAND.name, COMMAND);
   }
 }
 
@@ -27,15 +27,15 @@ CLIENT.on('ready', async () => {
   // log client invite URI
   try {
     let link = await CLIENT.generateInvite(8);
-    console.log(link + '\n');
+    console.log(link);
   } catch(error) {
-    console.warn(error.stack);
+    console.error(error);
   }
 });
 
 // on message event listener
 CLIENT.on('message', async message => {
-  // return if the message is not a command
+  // return if the message should be ignored
   if (!message.content.startsWith(PREFIX)                 // message does not begin with the prefix
   || Object.values(SERVERS).indexOf(message.guild.id) < 0 // guild is not in whitelist
   || message.channel.type !== 'text'                      // message is in a non-text channel
@@ -46,29 +46,29 @@ CLIENT.on('message', async message => {
   }
 
   // slice the command prefix, split the command and arguments on spaces
-  const commandArgs = message.content.slice(PREFIX.length)
+  const COMMAND_ARGS = message.content.slice(PREFIX.length)
     .trim()
     .toLowerCase()
     .replace(/\s+/g, ' ')
     .split(' ');
-  const commandName = commandArgs.shift();
+  const COMMAND_NAME = COMMAND_ARGS.shift();
 
   // return if requested command does not exist
-  if (!CLIENT.commands.has(commandName)) return;
+  if (!CLIENT.commands.has(COMMAND_NAME)) return;
 
-  const command = CLIENT.commands.get(commandName);
+  const COMMAND = CLIENT.commands.get(COMMAND_NAME);
 
   // return if arguments are required by the command
-  if (command.args && !commandArgs.length) {
-    return RESPONSES.warning(message, `\`${PREFIX + commandName}\` has required arguments`, ['usage', command.usage]);
+  if (COMMAND.args && !COMMAND_ARGS.length) {
+    return RESPONSES.warning(message, `\`${PREFIX + COMMAND_NAME}\` has required arguments`, ['usage', COMMAND.usage]);
   }
 
   // execute the command
   try {
-    command.execute(message, commandArgs);
-  } catch (error) {
+    COMMAND.execute(message, COMMAND_ARGS);
+  } catch(error) {
     console.error(error);
-    return RESPONSES.error(message, `execution of \`${PREFIX + commandName}\` failed`);
+    return RESPONSES.error(message, `execution of \`${PREFIX + COMMAND_NAME}\` failed`);
   }
 });
 

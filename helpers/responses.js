@@ -1,10 +1,10 @@
 const { RichEmbed } = require('discord.js');
 const COLORS = require('./colors');
 
-const embedTitles = {
+const EMBED_TITLES = {
   info:    'ℹ info',
   warning: '⚠ warning',
-  error:   '⛔ error',
+  error:   '⛔ error'
 };
 
 /**
@@ -14,18 +14,18 @@ const embedTitles = {
  * @param {...string[]} fields      fields to add to the embed
  */
 function sendResponse(type, message, description, ...fields) {
-  const embed = new RichEmbed()
+  const EMBED = new RichEmbed()
     .setColor(COLORS[type])
-    .setTitle(embedTitles[type])
+    .setTitle(EMBED_TITLES[type])
     .setDescription(description);
 
   if (fields) {
     fields.forEach(cur => {
-      embed.addField(cur[0], cur[1], cur[2]);
+      EMBED.addField(cur[0], cur[1], cur[2]);
     });
   }
 
-  message.channel.send(embed);
+  message.channel.send(EMBED);
 }
 
 module.exports.info = (message, description, ...fields) => {

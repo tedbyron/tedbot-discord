@@ -13,5 +13,5 @@ module.exports = {
         .setColor(COLORS.default)
         .setTitle('boop')
     );
-  },
+  }
 };

@@ -9,17 +9,17 @@ const RESPONSES = require('../../helpers/responses');
  * @returns {object}       object with an array of rolls and their sum
  */
 function roll(times, sides) {
-  const rolls = [];
+  const ROLLS = [];
 
   for (let i = 0; i < times; i++) {
-    rolls.push(Math.floor(Math.random() * sides + 1));
+    ROLLS.push(Math.floor(Math.random() * sides + 1));
   }
 
-  const sum = rolls.reduce((acc, cur) => acc + cur);
+  const SUM = ROLLS.reduce((acc, cur) => acc + cur);
 
   return {
-    sum: sum,
-    rolls: rolls,
+    'sum': SUM,
+    'rolls': ROLLS
   };
 }
 
@@ -36,7 +36,7 @@ module.exports = {
       return RESPONSES.warning(message, `too many arguments for \`${PREFIX + this.name}\``, ['usage', this.usage]);
     }
 
-    const embed = new RichEmbed()
+    const EMBED = new RichEmbed()
       .setColor(COLORS.default)
       .setTitle(`🎲 ${this.name}(${args[0] ? args[0].includes('d') ? args[0] : args[0] + 'd6' : '1d6' })`);
     let times = 1, sides = 6; // default for a roll with no arguments
@@ -56,15 +56,15 @@ module.exports = {
     }
 
     // roll the die
-    const result = roll(times, sides);
-    if (result.rolls.length > 1) {
-      embed.addField('sum', result.sum.toString());
-      embed.addField('rolls', result.rolls.join(' '));
+    const RESULT = roll(times, sides);
+    if (RESULT.rolls.length > 1) {
+      EMBED.addField('sum', RESULT.sum.toString());
+      EMBED.addField('rolls', RESULT.rolls.join(' '));
     } else {
-      embed.setDescription(result.rolls[0].toString());
+      EMBED.setDescription(RESULT.rolls[0].toString());
     }
 
     // send response
-    message.channel.send(embed);
-  },
+    message.channel.send(EMBED);
+  }
 };
