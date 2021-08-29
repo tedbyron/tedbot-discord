@@ -1,6 +1,10 @@
-# tedbot
+<div align="center">
+  <h1><code>tedbot</code></h1>
 
->   A JavaScript Discord bot
+  <p>
+    <strong>A JavaScript Discord bot.</strong>
+  </p>
+</div>
 
 ## Resources
 
